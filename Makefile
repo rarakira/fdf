@@ -1,6 +1,6 @@
 NAME		=	fdf
 
-SRCS		=	main.c
+SRCS		=	main.c			init_map.c
 
 OBJS		=	$(SRCS:.c=.o)
 
@@ -29,13 +29,16 @@ DEBUG		=	debug
 all : libs $(NAME)
 
 $(NAME) : $(OBJS)
-		$(CC) $(OBJS) -L$(XLIBDIR) -l$(XLIB) $(XFLAGS) -o $(NAME)
+		$(CC) $(OBJS) -L$(LIBDIR) -l$(LIB) -L$(XLIBDIR) -l$(XLIB) $(XFLAGS) -o $(NAME)
 
 %.o : %.c
 		$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 norm:
-		@norminette ./*.c includes/*.h
+		@norminette ./*.c libft/*.c libft/*/*.c\
+					includes/error_messages.h\
+					includes/ft_printf.h\
+					includes/libft.h
 
 libs:
 		@$(MAKE) -C $(LIBDIR)

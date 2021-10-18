@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:10 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/14 14:33:18 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/18 12:43:36 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_fd	*get_current(t_fd	**start, int fd)
 
 int	get_next_line(int fd, char **line)
 {
-	static t_fd	*start = NULL;
+	static t_fd		*start = NULL;
 	t_fd			*current;
 	ssize_t			read_res;
 	char			*buf;

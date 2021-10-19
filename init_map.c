@@ -6,79 +6,26 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:41:56 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/18 16:33:18 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/19 15:11:16 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "error_messages.h"
 
-
-t_point	*ft_point_new(int z, int x)
-{
-	t_point	*point;
-
-	point = (t_point *)malloc(sizeof(t_point));
-	if (point)
-	{
-		point->z = z;
-		point->x = x;
-		point->next = NULL;
-	}
-	return (point);
-}
-
-t_point	*ft_point_last(t_point *lst)
+void	free_points(t_point *list)
 {
 	t_point	*tmp;
 
-	if (!lst)
-		return (NULL);
-	tmp = lst;
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
-
-void	add_line_front(t_point **start, t_point *new)
-{
-	t_point		*tmp;
-
-	tmp = ft_point_last(new);
-	if (new)
+	while (list)
 	{
-		new->next = *start;
-		*start = new;
+		tmp = list;
+		list = list->next;
+		free(tmp);
 	}
 }
 
-void	ft_point_add_front(t_point **start, t_point *new)
-{
-	if (new)
-	{
-		new->next = *start;
-		*start = new;
-	}
-}
-
-void	ft_point_add_back(t_point **start, t_point *new)
-{
-	t_point	*tmp;
-
-	if (start)
-	{
-		if (*start && new)
-		{
-			tmp = ft_point_last(*start);
-			tmp->next = new;
-		}
-		else
-			if (!(*start) && new)
-				*start = new;
-	}
-}
-
-int	parse_line(char *str, t_point *start)
+int	parse_line(char *str, t_point **start, int	x)
 {
 	char	**nums;
 	t_point	*tmp;
@@ -88,59 +35,133 @@ int	parse_line(char *str, t_point *start)
 	i = 0;
 	nums = ft_split(str, ' ');
 	while (nums[i])
-		i++;
-	while (nums[i])
 	{
-		tmp = ft_point_new(ft_atoi(nums[i]), i);
+		tmp = ft_point_new(x, i, ft_atoi(nums[i]));
 		ft_point_add_back(&current_line, tmp);
 		free(nums[i]);
 		i++;
 	}
 	free(nums);
-	add_line_front(&start, current_line);
-	if (start)
-	{
-		ft_printf("z = %d\n", start->z);
-		start = start->next;
-	}
+	add_line_front(start, current_line);
 	return (i);
 }
 
-t_point	**init_map(char	*map_file)
+t_point	*read_map(int fd, t_map *map_info)
 {
-	int		fd;
 	int		res;
-	t_point	**map = NULL;
 	t_point	*flat_map = NULL;
 	char	*line;
-	int		i = 0;
+	int		h = 0;
 	int		width = 0;
 
+	res = get_next_line(fd, &line);
+	while (res != 0 && ++h)
+	{
+		if (res == -1) // ?
+			exit_on_error(ERR_MAP);
+		width = parse_line(line, &flat_map, h);
+		if (width == -1)
+		{
+			free_points(flat_map);
+			if (line)
+				free(line);
+			exit_on_error(ERR_MAP);
+		}
+		free(line);
+		if (h == 1)
+			map_info->map_w = width;
+		else
+			if (width != map_info->map_w)
+			{
+				free_points(flat_map);
+				return (NULL);
+			}
+		res = get_next_line(fd, &line);
+	}
+	if (line)
+		free(line);
+	map_info->map_h = h;
+	if (!map_info->map_h || !map_info->map_w)
+		exit_on_error(ERR_MAP);
+	return (flat_map);
+}
+
+void	consolelog_map(int **map, int width, int height)
+{
+	int			x;
+	int			y;
+
+	y = 0;
+	while (y < height)
+	{
+		x = 0;
+		ft_printf("%-6d::\t", y);
+		while (x < width)
+			ft_printf("%d\t", map[y][x++]);
+		ft_printf("\n");
+		y++;
+	}
+	ft_printf("Printed map: %d x %d size\n", width, height);
+}
+
+int		map_to_arr(t_point *flat_map, t_fdf *fdf)
+{
+	t_point		*tmp;
+	int			x;
+	int			y;
+
+	y = 0;
+	tmp = flat_map;
+	if (!flat_map) // Could this be an issue?
+		return (-1);
+	fdf->map_info.map = (int **)malloc(sizeof(int *) * fdf->map_info.map_h);
+	fdf->map_info.color = (int **)malloc(sizeof(int *) * fdf->map_info.map_h);
+	if (!fdf->map_info.map || !fdf->map_info.color)
+	{
+		free_points(flat_map);
+		exit_on_error(ERR_MEM);
+	}
+	while (y < fdf->map_info.map_h)
+	{
+		x = 0;
+		fdf->map_info.map[y] = (int *)malloc(sizeof(int) * fdf->map_info.map_w);
+		fdf->map_info.color[y] = (int *)malloc(sizeof(int) * fdf->map_info.map_w);
+		if (!fdf->map_info.map[y] || !fdf->map_info.color[y])
+		{
+			free_points(flat_map);
+			//free_arr(fdf->map_info.map, y) & free_arr(fdf->map_info.color, y)
+			exit_on_error(ERR_MEM);
+		}
+		while (x < fdf->map_info.map_w && tmp)
+		{
+			fdf->map_info.map[y][x] = tmp->z;
+			fdf->map_info.color[y][x] = tmp->color;
+			tmp = tmp->next;
+			x++;
+		}
+		y++;
+	}
+	consolelog_map(fdf->map_info.map, fdf->map_info.map_w, fdf->map_info.map_h);
+	return (1);
+}
+
+void	init_map(char	*map_file, t_fdf *fdf)
+{
+	int		fd;
+	t_point	*flat_map;
+
+	flat_map = NULL;
 	if (open(map_file, O_DIRECTORY) != -1)
 		exit_on_error(ERR_FD_IS_DIR);
 	fd = open(map_file, O_RDONLY);
-	res = get_next_line(fd, &line);
-	while (res != 0 && ++i)
-	{
-		//if (parse_line(line, flat_map))
-		//	exit_on_error(ERR_MAP);
-		//else
-		//	if (line)
-		//		free(line);
-		width = parse_line(line, flat_map);
-		res = get_next_line(fd, &line);
-		ft_printf("width = %d, i = %d\n", width, i);
-	}
-	ft_printf("width = %d, i = %d\n", width, i);
-	if (line)
-		free(line);
-	while (flat_map)
-	{
-		ft_printf("z = %d\n", flat_map->z);
-	}
 	if (fd == -1)
 		exit_on_error(ERR_FD_OPEN);
+	flat_map = read_map(fd, &fdf->map_info);
 	if (close(fd) == -1)
 		exit_on_error(ERR_FD_CLOSE);
-	return (map);
+	if (!flat_map)
+		exit_on_error(ERR_LINE_W);
+	if (map_to_arr(flat_map, fdf) == -1)
+		exit_on_error(ERR_READING); // think later
+	free_points(flat_map);
 }

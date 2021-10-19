@@ -1,10 +1,18 @@
 NAME		=	fdf
 
-SRCS		=	main.c			init_map.c
+SRCS		=	main.c									\
+				init_map.c			init_map_utils.c	\
+				draw_map.c	
 
 OBJS		=	$(SRCS:.c=.o)
 
 INCLUDES	=	-Iincludes
+
+H_FILES		=	includes/error_messages.h				\
+				includes/fdf.h							\
+				includes/libft.h						\
+				includes/ft_printf.h					\
+				includes/mlx.h
 
 LIB			=	ft
 
@@ -28,7 +36,7 @@ DEBUG		=	debug
 
 all : libs $(NAME)
 
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJS) $(H_FILES)
 		$(CC) $(OBJS) -L$(LIBDIR) -l$(LIB) -L$(XLIBDIR) -l$(XLIB) $(XFLAGS) -o $(NAME)
 
 %.o : %.c
@@ -47,7 +55,7 @@ libs:
 clean:
 		@$(RM) $(OBJS)
 		@$(MAKE) clean -C $(LIBDIR)
-		@$(MAKE) clean -C $(XLIBDIR)
+#		@$(MAKE) clean -C $(XLIBDIR)
 		@echo "\033[1;38;5;221m*  MLX objects removed\033[0m"
 		@echo "\033[1;38;5;221m*  Fdf objects removed\033[0m"
 

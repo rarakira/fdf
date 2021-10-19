@@ -6,16 +6,24 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:00:54 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/18 16:00:40 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/19 15:49:38 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "error_messages.h"
 
+int		g_col_red = 0x00D13632;
+int		g_col_orange = 0x00E2571E;
+int		g_col_yellow = 0x00CDB924;
+int		g_col_green = 0x00479E1B;
+int		g_col_blue = 0x001D829E;
+int		g_col_violet = 0x00503FA9;
+
 void	exit_on_error(char	*msg)
 {
 	ft_putendl_fd(msg, 1);
+	//getchar();
 	exit(1);
 }
 
@@ -34,13 +42,16 @@ int	main(int argc, char **argv)
 
 	if (argc == 2)
 	{
-		fdf.map = init_map(argv[1]);
+		init_map(argv[1], &fdf);
+		//ft_printf("map h = %d, map w = %d\n", fdf.map_info.map_h, fdf.map_info.map_w);
+		ft_printf("Exit!\n");
+		//getchar();
 		init_fdf(&fdf);
+		draw_map(&fdf, fdf.map_info.map);
+		mlx_put_image_to_window(fdf.mlx, fdf.win, fdf.img, 0, 0);
 		//init_camera(fdf.camera);
-		//mlx_put_image_to_window(fdf.mlx, fdf.win, fdf.img, 0, 0);
-		//mlx_string_put(fdf.mlx, fdf.win, 20, 20, g_col_orange, "Hello FdF!");
 		//register_hooks(&fdf);
-		//mlx_loop(fdf.mlx);
+		mlx_loop(fdf.mlx);
 		//free_fdf()
 	}
 	exit_on_error(ERR_ARGS);

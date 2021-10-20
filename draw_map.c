@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 15:16:00 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/19 15:56:53 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/20 15:27:31 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ void	draw_map(t_fdf	*fdf, int	**map)
 	int		x_start, y_start;
 	int		x_fin, y_fin;
 
-	for (int y = 0; y < fdf->map_info.map_h; y++)
+	for (int y = 0; y < fdf->map_i.map_h; y++)
 	{
-		for (int x = 0; x < fdf->map_info.map_w; x++)
+		for (int x = 0; x < fdf->map_i.map_w; x++)
 		{
 			//printf("y = %d, x = %d\n", y, x);
-			if (x < (fdf->map_info.map_w - 1)) // draw horizontal
+			if (x < (fdf->map_i.map_w - 1)) // draw horizontal
 			{
 				//printf("point1 %p, point2 %p\n", map[y][x], map[y][x + 1]);
 				x_start = map_point_x(x, y, map[y][x]);
@@ -105,7 +105,7 @@ void	draw_map(t_fdf	*fdf, int	**map)
 				//printf("HOR: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", x_start, y_start, x_fin, y_fin);
 				my_draw_line(fdf, 450 + x_start, 400 + y_start, 450 + x_fin, 400 + y_fin, g_col_yellow);
 			}
-			if (y < (fdf->map_info.map_h - 1)) // draw vertical
+			if (y < (fdf->map_i.map_h - 1)) // draw vertical
 			{
 				//printf("point1 %p, point2 %p\n", map[y][x], map[y+ 1][x]);
 				x_start = map_point_x(x, y, map[y][x]);

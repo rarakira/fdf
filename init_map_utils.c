@@ -6,72 +6,90 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 10:49:06 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/19 12:35:03 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/20 15:29:00 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "error_messages.h"
 
-t_point	*ft_point_new(int x, int y, int z)
-{
-	t_point	*point;
-
-	point = (t_point *)malloc(sizeof(t_point));
-	if (point)
-	{
-		point->x = x;
-		point->y = y;
-		point->z = z;
-		point->next = NULL;
-	}
-	return (point);
-}
-
-t_point	*ft_point_last(t_point *lst)
-{
-	t_point	*tmp;
-
-	if (!lst)
-		return (NULL);
-	tmp = lst;
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
-
-void	add_line_front(t_point **start, t_point *new)
+/*
+** Allocate memory and copy color-value to the color-array.
+*/
+void	color_to_arr(t_point *flat_map, t_fdf *fdf)
 {
 	t_point		*tmp;
+	int			x;
+	int			y;
 
-	tmp = ft_point_last(new);
-	if (new)
+	y = 0;
+	tmp = flat_map;
+	while (y < fdf->map_i.map_h)
 	{
-		tmp->next = *start;
-		*start = new;
-	}
-}
-
-void	ft_point_add_front(t_point **start, t_point *new)
-{
-	if (new)
-	{
-		new->next = *start;
-		*start = new;
-	}
-}
-
-void	ft_point_add_back(t_point **start, t_point *new)
-{
-	t_point	*tmp;
-
-	if (start)
-	{
-		if (*start && new)
+		x = 0;
+		fdf->map_i.color[y] = (int *)malloc(sizeof(int) * fdf->map_i.map_w);
+		if (!fdf->map_i.color[y])
 		{
-			tmp = ft_point_last(*start);
-			tmp->next = new;
+			free_points(flat_map);
+			free_arr(fdf->map_i.map, fdf->map_i.map_h);
+			free_arr(fdf->map_i.color, fdf->map_i.map_h);
+			exit_on_error(ERR_MEM);
 		}
-		else
-			*start = new;
+		while (x < fdf->map_i.map_w && tmp)
+		{
+			fdf->map_i.color[y][x] = tmp->z;
+			tmp = tmp->next;
+			x++;
+		}
+		y++;
 	}
+}
+
+/*
+** Allocate memory and copy z-value to the map-array.
+*/
+void	map_to_arr(t_point *flat_map, t_fdf *fdf)
+{
+	t_point		*tmp;
+	int			x;
+	int			y;
+
+	y = 0;
+	tmp = flat_map;
+	while (y < fdf->map_i.map_h)
+	{
+		x = 0;
+		fdf->map_i.map[y] = (int *)malloc(sizeof(int) * fdf->map_i.map_w);
+		if (!fdf->map_i.map[y])
+		{
+			free_points(flat_map);
+			free_arr(fdf->map_i.map, fdf->map_i.map_h);
+			exit_on_error(ERR_MEM);
+		}
+		while (x < fdf->map_i.map_w && tmp)
+		{
+			fdf->map_i.map[y][x] = tmp->z;
+			tmp = tmp->next;
+			x++;
+		}
+		y++;
+	}
+}
+
+/*
+** Convert t_point list to int-matrix inside fdf-structure.
+*/
+void	list_to_arr(t_point *flat_map, t_fdf *fdf)
+{
+	fdf->map_i.map = (int **)malloc(sizeof(int *) * fdf->map_i.map_h);
+	fdf->map_i.color = (int **)malloc(sizeof(int *) * fdf->map_i.map_h);
+	if (!fdf->map_i.map || !fdf->map_i.color)
+	{
+		free_if_not_null(fdf->map_i.map);
+		free_if_not_null(fdf->map_i.color);
+		free_points(flat_map);
+		exit_on_error(ERR_MEM);
+	}
+	map_to_arr(flat_map, fdf);
+	color_to_arr(flat_map, fdf);
 }

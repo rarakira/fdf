@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/19 15:47:33 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/20 16:33:55 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,32 @@ typedef struct s_fdf {
 	int			line_length;
 	int			endian;
 	t_camera	*camera;
-	t_map		map_info;
+	t_map		map_i;
 }				t_fdf;
 
+/* Init program functions */
 void	init_map(char *map_file, t_fdf *fdf);
+void	register_hooks(t_fdf *fdf);
+
+/* Init map functions */
+void	list_to_arr(t_point *flat_map, t_fdf *fdf);
+void	map_to_arr(t_point *flat_map, t_fdf *fdf);
+void	color_to_arr(t_point *flat_map, t_fdf *fdf);
+
+/* Error management */
 void	exit_on_error(char	*msg);
+
+/* Free memory functions */
+void	free_fdf(t_fdf *fdf);
+void	free_arr(int **arr, int depth);
+void	free_if_not_null(void *ptr);
+void	free_points(t_point *list);
 
 void	draw_map(t_fdf *fdf, int **map);
 
 /* t_point functions */
 
-t_point	*ft_point_new(int x, int y, int z);
+t_point	*ft_point_new(char *z);
 t_point	*ft_point_last(t_point *lst);
 void	add_line_front(t_point **start, t_point *new);
 void	ft_point_add_front(t_point **start, t_point *new);

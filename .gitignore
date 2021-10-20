@@ -2,6 +2,7 @@
 *draft*
 *workspace*
 .vscode
+test_maps/42-forbidden.fdf
 
 # Prerequisites
 *.d

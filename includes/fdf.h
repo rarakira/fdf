@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/20 16:33:55 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/21 09:16:36 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,7 @@ void	exit_on_error(char	*msg);
 /* Free memory functions */
 void	free_fdf(t_fdf *fdf);
 void	free_arr(int **arr, int depth);
-void	free_if_not_null(void *ptr);
-void	free_points(t_point *list);
+int		free_points(t_point *list);
 
 void	draw_map(t_fdf *fdf, int **map);
 

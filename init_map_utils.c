@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 10:49:06 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/20 15:29:00 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/21 09:02:22 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void	list_to_arr(t_point *flat_map, t_fdf *fdf)
 	fdf->map_i.color = (int **)malloc(sizeof(int *) * fdf->map_i.map_h);
 	if (!fdf->map_i.map || !fdf->map_i.color)
 	{
-		free_if_not_null(fdf->map_i.map);
-		free_if_not_null(fdf->map_i.color);
+		free(fdf->map_i.map);
+		free(fdf->map_i.color);
 		free_points(flat_map);
 		exit_on_error(ERR_MEM);
 	}

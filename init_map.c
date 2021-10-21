@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:41:56 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/20 17:23:14 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/21 09:22:53 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,37 +53,32 @@ int	parse_line(char **str, t_point **start)
 }
 
 /*
-** Read file, create and return t_point structure of all map values.
+** Read file, create and return ordered t_point structure of all map values.
 */
 t_point	*read_map(int fd, t_map *map_i)
 {
 	int		res;
 	t_point	*flat_map;
 	char	*line;
-	int		h;
 	int		width;
 
-	h = 0;
+	map_i->map_h = 0;
 	width = 0;
 	flat_map = NULL;
-	// line = NULL; // ???
+	line = NULL;
 	res = get_next_line(fd, &line);
-	while (res != 0 && ++h)
+	while (res != 0 && ++map_i->map_h)
 	{
-		if (res == -1) // have to free all previously allocated memory
+		if (res == -1 && free_points(flat_map))
 			exit_on_error(ERR_MEM);
 		width = parse_line(&line, &flat_map);
-		if (h == 1)
+		if (map_i->map_h == 1)
 			map_i->map_w = width;
-		if (h != 1 && width != map_i->map_w)
-		{
-			free_points(flat_map);
+		if (map_i->map_h != 1 && width != map_i->map_w && free_points(flat_map))
 			return (NULL);
-		}
 		res = get_next_line(fd, &line);
 	}
-	free_if_not_null(line);
-	map_i->map_h = h;
+	free(line);
 	return (flat_map);
 }
 

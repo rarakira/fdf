@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 14:58:06 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/20 15:27:31 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/21 09:16:25 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_fdf(t_fdf *fdf)
 	free(fdf->map_i.color);
 }
 
-void	free_points(t_point *list)
+int	free_points(t_point *list)
 {
 	t_point	*tmp;
 
@@ -37,6 +37,7 @@ void	free_points(t_point *list)
 		list = list->next;
 		free(tmp);
 	}
+	return (1);
 }
 
 void	free_arr(int **arr, int depth)
@@ -50,10 +51,4 @@ void	free_arr(int **arr, int depth)
 		i++;
 	}
 	free(arr);
-}
-
-void	free_if_not_null(void *ptr)
-{
-	if (ptr)
-		free(ptr);
 }

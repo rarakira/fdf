@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/21 10:00:34 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/21 14:11:41 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 # define WIN_WIDTH		1200
 # define WIN_HEIGHT		800
+# define IMG_WIDTH		1000
+# define IMG_HEIGHT		700
+# define RAD_ANGLE		0.46365
 
 # define COL_RED		0x00D13632
 # define COL_ORANGE		0x00E2571E
@@ -28,12 +31,16 @@
 # define COL_GREEN		0x00479E1B
 # define COL_BLUE		0x001D829E
 # define COL_VIOLET		0x00503FA9
+# define COL_BLACK		0x002B2B2A
 
 typedef struct s_camera {
-	int		iso;
-	int		x_offset;
-	int		y_offset;
-	int		zoom;
+	int			iso;
+	int			x_offset;
+	int			y_offset;
+	double		xx;
+	double		yy;
+	double		zz;
+	double		zoom;
 }				t_camera;
 
 typedef struct s_map {
@@ -62,7 +69,7 @@ typedef struct s_fdf {
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
-	t_camera	*camera;
+	t_camera	camera;
 	t_map		map_i;
 }				t_fdf;
 
@@ -85,6 +92,9 @@ int		free_points(t_point *list);
 
 /* Drawing image functions */
 void	draw_map(t_fdf *fdf, int **map);
+int		map_point_y(int	y, int x, int z, t_fdf	*fdf);
+int		map_point_x(int	y, int x, int z, t_fdf	*fdf);
+int		find_diff(int a, int b);
 
 /* t_point functions */
 

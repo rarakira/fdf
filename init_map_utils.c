@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 10:49:06 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/21 09:02:22 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/21 13:49:18 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	map_to_arr(t_point *flat_map, t_fdf *fdf)
 
 	y = 0;
 	tmp = flat_map;
+	fdf->map_i.z_min = tmp->z;
+	fdf->map_i.z_max = tmp->z;
 	while (y < fdf->map_i.map_h)
 	{
 		x = 0;
@@ -68,6 +70,10 @@ void	map_to_arr(t_point *flat_map, t_fdf *fdf)
 		}
 		while (x < fdf->map_i.map_w && tmp)
 		{
+			if (fdf->map_i.z_min > tmp->z)
+				fdf->map_i.z_min = tmp->z;
+			if (fdf->map_i.z_max < tmp->z)
+				fdf->map_i.z_max = tmp->z;
 			fdf->map_i.map[y][x] = tmp->z;
 			tmp = tmp->next;
 			x++;

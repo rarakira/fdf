@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:41:56 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/21 09:22:53 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/21 12:55:52 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_point	*read_map(int fd, t_map *map_i)
 	char	*line;
 	int		width;
 
-	map_i->map_h = 0;
+	//map_i->map_h = 0;
 	width = 0;
 	flat_map = NULL;
 	line = NULL;

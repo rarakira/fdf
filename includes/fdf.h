@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/21 09:16:36 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/21 10:00:34 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@
 # define WIN_WIDTH		1200
 # define WIN_HEIGHT		800
 
-int			g_col_red;
-int			g_col_orange;
-int			g_col_yellow;
-int			g_col_green;
-int			g_col_blue;
-int			g_col_violet;
+# define COL_RED		0x00D13632
+# define COL_ORANGE		0x00E2571E
+# define COL_YELLOW		0x00CDB924
+# define COL_GREEN		0x00479E1B
+# define COL_BLUE		0x001D829E
+# define COL_VIOLET		0x00503FA9
 
 typedef struct s_camera {
 	int		iso;
@@ -79,10 +79,11 @@ void	color_to_arr(t_point *flat_map, t_fdf *fdf);
 void	exit_on_error(char	*msg);
 
 /* Free memory functions */
-void	free_fdf(t_fdf *fdf);
+int		free_fdf(t_fdf *fdf);
 void	free_arr(int **arr, int depth);
 int		free_points(t_point *list);
 
+/* Drawing image functions */
 void	draw_map(t_fdf *fdf, int **map);
 
 /* t_point functions */

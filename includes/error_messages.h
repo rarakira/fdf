@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:05:15 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/19 13:59:48 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/21 09:52:12 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,8 @@
 # define ERR_FD_CLOSE		"Could not close the map_file"
 # define ERR_FD_IS_DIR		"The file is a directory, not a map"
 # define ERR_MEM			"Memory allocation failed"
+# define ERR_MLX			"MLX initiation failed"
+# define ERR_WIN			"Window initiation failed"
+# define ERR_IMG			"Error on image initiation"
 
 #endif

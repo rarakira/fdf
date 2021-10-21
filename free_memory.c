@@ -6,13 +6,13 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 14:58:06 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/21 09:16:25 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/21 09:48:40 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	free_fdf(t_fdf *fdf)
+int	free_fdf(t_fdf *fdf)
 {
 	int		i;
 
@@ -25,6 +25,7 @@ void	free_fdf(t_fdf *fdf)
 	}
 	free(fdf->map_i.map);
 	free(fdf->map_i.color);
+	return (1);
 }
 
 int	free_points(t_point *list)

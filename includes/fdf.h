@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/21 14:11:41 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/22 13:55:35 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int		find_diff(int a, int b);
 
 t_point	*ft_point_new(char *z);
 t_point	*ft_point_last(t_point *lst);
-void	add_line_front(t_point **start, t_point *new);
 void	ft_point_add_front(t_point **start, t_point *new);
 void	ft_point_add_back(t_point **start, t_point *new);
 

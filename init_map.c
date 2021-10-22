@@ -6,17 +6,16 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:41:56 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/21 12:55:52 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/22 13:55:02 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "error_messages.h"
 
-static void	free_and_exit(char *str, t_point *current_line, t_point *start)
+static void	free_and_exit(char *str, t_point *start)
 {
 	free(str);
-	free_points(current_line);
 	free_points(start);
 	exit_on_error(ERR_MEM);
 }
@@ -28,25 +27,22 @@ int	parse_line(char **str, t_point **start)
 {
 	char	**nums;
 	t_point	*tmp;
-	t_point	*current_line;
 	int		i;
 
 	i = 0;
 	tmp = NULL;
-	current_line = NULL;
 	nums = ft_split(*str, ' ');
 	while (nums && nums[i])
 	{
 		tmp = ft_point_new(nums[i]);
 		if (!tmp)
 			break ;
-		ft_point_add_back(&current_line, tmp);
+		ft_point_add_back(start, tmp);
 		i++;
 	}
 	ft_split_free(nums);
 	if (!tmp)
-		free_and_exit(*str, current_line, *start);
-	add_line_front(start, current_line);
+		free_and_exit(*str, *start);
 	free(*str);
 	*str = NULL;
 	return (i);

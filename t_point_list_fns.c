@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 15:14:32 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/20 16:35:03 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/22 13:55:23 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,6 @@ t_point	*ft_point_last(t_point *lst)
 	while (tmp->next)
 		tmp = tmp->next;
 	return (tmp);
-}
-
-void	add_line_front(t_point **start, t_point *new)
-{
-	t_point		*tmp;
-
-	tmp = ft_point_last(new);
-	if (new)
-	{
-		tmp->next = *start;
-		*start = new;
-	}
 }
 
 void	ft_point_add_front(t_point **start, t_point *new)

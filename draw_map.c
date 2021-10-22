@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 15:16:00 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/21 16:44:58 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/22 13:56:29 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,28 +85,23 @@ int	map_point_y(int	y, int x, int z)
 	return ((int)((x * (-0.5) + y * 0.5 + z * -1) * 20));
 } */
 
-// x_cart = (x - y) * cos(RAD_ANGLE);
-int	map_point_x(int	y, int x, int z, t_fdf	*fdf)
+// x_cart = (x + y) * cos(RAD_ANGLE);
+int	map_point_x(int x, int	y, int z, t_fdf	*fdf)
 {
 	double	x_cart;
 	(void) z;
-	// (void) fdf;
 
-	x_cart = (x + y) * cos(RAD_ANGLE);
-	// printf("MAP X:\nx = %d, y = %d, z = %d\n", x, y, z);
-	// printf("x_cart = %f\n", x_cart);
+	x_cart = (x - y) * cos(RAD_ANGLE);
 	return ((int)(x_cart * fdf->map_i.z_depth) + fdf->camera.x_offset);
 }
 
 // y_cart = -z + (x + y) * sin(RAD_ANGLE);
-int	map_point_y(int	y, int x, int z, t_fdf	*fdf)
+// y_cart = -z + x * -sin(RAD_ANGLE) + y * sin(RAD_ANGLE);
+int	map_point_y(int x, int	y, int z, t_fdf	*fdf)
 {
 	double	y_cart;
-	// (void) fdf;
 
-	y_cart = -z + x * -sin(RAD_ANGLE) + y * sin(RAD_ANGLE);
-	// printf("MAP Y:\nx = %d, y = %d, z = %d\n", x, y, z);
-	// printf("y_cart = %f\n", y_cart);
+	y_cart = -z + (x + y) * sin(RAD_ANGLE);
 	return ((int)(y_cart * fdf->map_i.z_depth) + fdf->camera.y_offset);
 }
 

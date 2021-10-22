@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 15:16:00 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/22 13:56:29 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/22 15:37:52 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,15 @@ int find_diff(int a, int b)
 	return (diff);
 }
 
+int	offscreen(int x, int y)
+{
+	if (x < 0 || x > WIN_WIDTH)
+		return (1);
+	if (y < 0 || y > WIN_HEIGHT)
+		return (1);
+		return (0);
+}
+
 void my_draw_line(t_fdf *fdf, int x_start, int y_start, int x_end, int y_end, int color)
 {
 	double x;
@@ -36,6 +45,8 @@ void my_draw_line(t_fdf *fdf, int x_start, int y_start, int x_end, int y_end, in
 	double increment_x;
 	double increment_y;
 
+	if (offscreen(x_start, y_start) || offscreen(x_end, y_end))
+		return ;
 	x = x_start;
 	y = y_start;
 	increment_y = 1.0;
@@ -91,6 +102,7 @@ int	map_point_x(int x, int	y, int z, t_fdf	*fdf)
 	double	x_cart;
 	(void) z;
 
+	ft_printf("map_point_x()\n");
 	x_cart = (x - y) * cos(RAD_ANGLE);
 	return ((int)(x_cart * fdf->map_i.z_depth) + fdf->camera.x_offset);
 }
@@ -101,6 +113,7 @@ int	map_point_y(int x, int	y, int z, t_fdf	*fdf)
 {
 	double	y_cart;
 
+	ft_printf("map_point_y()\n");
 	y_cart = -z + (x + y) * sin(RAD_ANGLE);
 	return ((int)(y_cart * fdf->map_i.z_depth) + fdf->camera.y_offset);
 }
@@ -133,7 +146,7 @@ void	draw_map(t_fdf	*fdf, int	**map)
 	{
 		for (int x = 0; x < fdf->map_i.map_w; x++)
 		{
-			// printf("y = %d, x = %d\n", y, x);
+			printf("y = %d, x = %d\n", y, x);
 			if (x < (fdf->map_i.map_w - 1)) // draw horizontal
 			{
 				// printf("point1 %d, point2 %d\n", map[y][x], map[y][x + 1]);
@@ -141,7 +154,7 @@ void	draw_map(t_fdf	*fdf, int	**map)
 				y_start = map_point_y(x, y, map[y][x], fdf);
 				x_fin = map_point_x(x + 1, y, map[y][x + 1], fdf);
 				y_fin = map_point_y(x + 1, y, map[y][x + 1], fdf);
-				// printf("HOR: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", x_start, y_start, x_fin, y_fin);
+				printf("HOR: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", x_start, y_start, x_fin, y_fin);
 				my_draw_line(fdf, x_start, y_start, x_fin, y_fin, COL_YELLOW);
 			}
 			if (y < (fdf->map_i.map_h - 1)) // draw vertical
@@ -151,7 +164,7 @@ void	draw_map(t_fdf	*fdf, int	**map)
 				y_start = map_point_y(x, y, map[y][x], fdf);
 				x_fin = map_point_x(x, y + 1, map[y + 1][x], fdf);
 				y_fin = map_point_y(x, y + 1, map[y + 1][x], fdf);
-				// printf("VERT: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", x_start, y_start, x_fin, y_fin);
+				printf("VERT: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", x_start, y_start, x_fin, y_fin);
 				my_draw_line(fdf, x_start, y_start, x_fin, y_fin, COL_RED);
 			}
 		}

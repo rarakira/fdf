@@ -6,14 +6,14 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 12:24:40 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/20 12:05:24 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/22 14:29:27 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# define DEFAULT_BS 42
+# define DEFAULT_BS 1000
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE DEFAULT_BS
 # elif BUFFER_SIZE < 1

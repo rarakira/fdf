@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:00:54 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/22 13:49:23 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/22 15:35:43 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	init_mlx(t_fdf	*fdf)
 
 void	init_fdf(t_fdf *fdf)
 {
-	fdf->map_i.z_depth = 15;
+	fdf->map_i.z_depth = 1;
 	fdf->map_i.map_h = 0;
 	fdf->camera.zoom = 1.0;
-	fdf->camera.x_offset = 400;
-	fdf->camera.y_offset = 300;
+	fdf->camera.x_offset = 0;
+	fdf->camera.y_offset = 0;
 	fdf->camera.xx = 0.0;
 	fdf->camera.yy = 0.0;
 	fdf->camera.zz = 0.0;
@@ -49,42 +49,48 @@ void	init_camera(t_fdf *fdf)
 {
 	int	width;
 	int	height;
-	int	y_top;
-	int	y_bottom;
 	int depth_h;
 	int depth_w;
 
-	ft_printf("right_pt = %d, left_pt = %d\n", map_point_x(0, fdf->map_i.map_w - 1, fdf->map_i.map[0][fdf->map_i.map_w - 1], fdf), map_point_x(fdf->map_i.map_h - 1, 0, fdf->map_i.map[fdf->map_i.map_h - 1][0], fdf));
-	width = map_point_x(0, fdf->map_i.map_w - 1, fdf->map_i.map[0][fdf->map_i.map_w - 1], fdf)
-		- map_point_x(fdf->map_i.map_h - 1, 0, fdf->map_i.map[fdf->map_i.map_h - 1][0], fdf); // / 2
-	ft_printf("Width :: %d \n", width);
-	ft_printf("z_min x z-max :: %d x %d\n", fdf->map_i.z_min, fdf->map_i.z_max);
+	ft_printf("CAM INIT : Started\n");
+	ft_printf("left: %d || right: %d", map_point_x(fdf->map_i.map_w - 1, 0, fdf->map_i.map[fdf->map_i.map_w - 1][0], fdf),\
+		map_point_x(0, fdf->map_i.map_h - 1, fdf->map_i.map[0][fdf->map_i.map_h - 1], fdf));
+	width = map_point_x(fdf->map_i.map_w - 1, 0, fdf->map_i.map[fdf->map_i.map_w - 1][0], fdf)
+		- map_point_x(0, fdf->map_i.map_h - 1, fdf->map_i.map[0][fdf->map_i.map_h - 1], fdf);
+	ft_printf("w = %d\n", width);
 	if (fdf->map_i.z_min < 0 && fdf->map_i.z_max < 0)
 		height = fdf->map_i.z_min - fdf->map_i.z_max;
-	else // if (fdf->map_i.z_min < 0)
+	else
 		height = fdf->map_i.z_max - fdf->map_i.z_min;
-	//ft_printf("MAP SIZE :: %d x %d\n", fdf->map_i.map_h, fdf->map_i.map_w);
-	ft_printf("Height :: %d \n", height);
-	y_top = map_point_y(0, 0, fdf->map_i.map[0][0], fdf);
-	y_bottom = map_point_y(fdf->map_i.map_h - 1, fdf->map_i.map_w - 1, fdf->map_i.map[fdf->map_i.map_h - 1][fdf->map_i.map_w - 1], fdf);
-	ft_printf("y_top x y_bottom :: %d x %d :: diff = %d\n", y_top, y_bottom, find_diff(y_top, y_bottom));
-	height += find_diff(y_top, y_bottom);
-	ft_printf("Height x Width :: %d x %d\n", height, width);
-	depth_h = WIN_HEIGHT / height;
-	depth_w = WIN_WIDTH / width;
-	ft_printf("d-Height x d-Width :: %d x %d\n", depth_h, depth_w);
+	height += map_point_y(fdf->map_i.map_h - 1, fdf->map_i.map_w - 1, 0, fdf);
+	ft_printf("h = %d\n", height);
+	depth_h = IMG_HEIGHT / height;
+	depth_w = IMG_WIDTH / width;
+	ft_printf("d_w = %d, d_h = %d\n", depth_w, depth_h);
 	if (depth_h > depth_w)
 		fdf->map_i.z_depth = depth_w;
 	else
 		fdf->map_i.z_depth = depth_h;
 	width *= fdf->map_i.z_depth;
 	height *= fdf->map_i.z_depth;
-	fdf->camera.x_offset = WIN_WIDTH - width;
-	fdf->camera.y_offset = WIN_HEIGHT - height;
-	ft_printf("FIN : Height x Width :: %d x %d\n", height, width);
-	ft_printf("fin_depth = %d\n", fdf->map_i.z_depth);
+	fdf->camera.x_offset = WIN_WIDTH / 2;
+	fdf->camera.y_offset = 50 + height / 2;
+	ft_printf("PROJECTION : Height x Width :: %d x %d\n", height, width);
+	ft_printf("z_depth = %d\n", fdf->map_i.z_depth);
 	ft_printf("X-offs = %d, Y-offs = %d\n", fdf->camera.x_offset, fdf->camera.y_offset);
 	ft_printf("CAMERA init: All good\n");
+}
+
+void	print_matrix(t_fdf *fdf)
+{
+	for (int i = 0; i < fdf->map_i.map_h; i++)
+	{
+		for (int j = 0; j < fdf->map_i.map_w; j++)
+		{
+			ft_printf("%d\t", fdf->map_i.map[i][j]);
+		}
+		ft_printf("\n");
+	}
 }
 
 int	main(int argc, char **argv)
@@ -95,12 +101,14 @@ int	main(int argc, char **argv)
 	{
 		init_fdf(&fdf);
 		init_map(argv[1], &fdf);
+		ft_printf("MAP init: success\n map_w = %d, map_h = %d, z_min = %d, z_max = %d\n", fdf.map_i.map_w, fdf.map_i.map_h, fdf.map_i.z_min, fdf.map_i.z_max);
+		print_matrix(&fdf);
 		init_mlx(&fdf);
-		//init_camera(&fdf);
+		init_camera(&fdf);
 		register_hooks(&fdf);
 		draw_map(&fdf, fdf.map_i.map);
 		mlx_put_image_to_window(fdf.mlx, fdf.win, fdf.img, 0, 0);
-		// ft_printf("Bpp: %d, win_w = %d, win_h = %d line_len = %d\n", fdf.bits_per_pixel, WIN_WIDTH, WIN_HEIGHT, fdf.line_length);
+		ft_printf("Bpp: %d, win_w = %d, win_h = %d line_len = %d\n", fdf.bits_per_pixel, WIN_WIDTH, WIN_HEIGHT, fdf.line_length);
 		mlx_loop(fdf.mlx);
 	}
 	exit_on_error(ERR_ARGS);
@@ -108,5 +116,4 @@ int	main(int argc, char **argv)
 }
 
 /*
-
 */

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:41:56 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/22 13:55:02 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/22 15:11:49 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_point	*read_map(int fd, t_map *map_i)
 	res = get_next_line(fd, &line);
 	while (res != 0 && ++map_i->map_h)
 	{
+		//ft_printf("READ_MAP: %d\n", map_i->map_h);
 		if (res == -1 && free_points(flat_map))
 			exit_on_error(ERR_MEM);
 		width = parse_line(&line, &flat_map);
@@ -92,11 +93,15 @@ void	init_map(char	*map_file, t_fdf *fdf)
 	fd = open(map_file, O_RDONLY);
 	if (fd == -1) // if troubles opening FD - exit
 		exit_on_error(ERR_FD_OPEN);
+	// ft_printf("1\n");
 	flat_map = read_map(fd, &fdf->map_i);
+	// ft_printf("2\n");
 	if (close(fd) == -1) // if troubles closing FD - exit
 		exit_on_error(ERR_FD_CLOSE);
+	// ft_printf("3\n");
 	if (!flat_map) // if bad width of lines - exit
 		exit_on_error(ERR_LINE_W);
 	list_to_arr(flat_map, fdf);
+	// ft_printf("4\n");
 	free_points(flat_map);
 }

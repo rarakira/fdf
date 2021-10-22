@@ -27,7 +27,7 @@ CC			=	gcc
 
 CFLAGS		=	-Wall -Wextra -Werror
 
-GFLAGS		=	-g
+GFLAGS		=	-fsanitize=address -static-libsan -g
 
 XFLAGS		=	-framework OpenGL -framework AppKit
 
@@ -71,10 +71,7 @@ fclean:	clean
 
 re:		fclean all
 
-$(DEBUG):
-		clang $(CFLAGS) $(GFLAGS) $(INCLUDES) $(SRCS) -L$(LIBDIR) -l$(LIB) -o $(DEBUG)
-
-leaks_valg: $(DEBUG)
-		valgrind --leak-check=full ./$(DEBUG) $(ARGS)
+$(DEBUG): $(OBJS) $(LIBDIR)/libft.a $(H_FILES)
+		$(CC) $(OBJS) $(GFLAGS) -L$(LIBDIR) -l$(LIB) -L$(XLIBDIR) -l$(XLIB) $(XFLAGS) -o $(DEBUG)
 
 .PHONY: all clean fclean re play norm leaks leaks_valg debug bonus

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 12:43:10 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/23 00:19:16 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 11:42:27 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	key_hook(int keycode, t_fdf *fdf)
 {
 	(void) fdf;
 	if (keycode == 123 || keycode == 124 || keycode == 125 || keycode == 126
-		|| keycode == 24 || keycode == 27)
+		|| keycode == 24 || keycode == 27 || keycode == 18 || keycode == 19)
 	{
 		if (keycode == 125)
 			fdf->camera.y_offset -= 15;
@@ -30,6 +30,10 @@ int	key_hook(int keycode, t_fdf *fdf)
 			fdf->map_i.z_depth -= 1;
 		if (keycode == 24)
 			fdf->map_i.z_depth += 1;
+		if (keycode == 18)
+			fdf->camera.xx -= 0.2;
+		if (keycode == 19)
+			fdf->camera.xx += 0.2;
 		mlx_clear_window(fdf->mlx, fdf->win);
 		draw_map(fdf, fdf->map_i.map);
 		mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);

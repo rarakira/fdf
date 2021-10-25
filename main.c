@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:00:54 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/22 23:30:17 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 11:23:05 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	init_camera(t_fdf *fdf)
 {
 	int	width;
 	int	height;
-	int depth_h;
-	int depth_w;
+	int	depth_h;
+	int	depth_w;
 
 	ft_printf("CAM INIT : Started\n");
 	ft_printf("fdf->map_i.map_w - 1 = %d\n", fdf->map_i.map_w - 1);

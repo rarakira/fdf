@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 10:49:06 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/21 13:49:18 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 11:19:15 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	color_to_arr(t_point *flat_map, t_fdf *fdf)
 	int			x;
 	int			y;
 
-	y = 0;
+	y = fdf->map_i.map_h - 1;
 	tmp = flat_map;
-	while (y < fdf->map_i.map_h)
+	while (y >= 0)
 	{
 		x = 0;
 		fdf->map_i.color[y] = (int *)malloc(sizeof(int) * fdf->map_i.map_w);
@@ -41,7 +41,7 @@ void	color_to_arr(t_point *flat_map, t_fdf *fdf)
 			tmp = tmp->next;
 			x++;
 		}
-		y++;
+		y--;
 	}
 }
 
@@ -54,11 +54,11 @@ void	map_to_arr(t_point *flat_map, t_fdf *fdf)
 	int			x;
 	int			y;
 
-	y = 0;
+	y = fdf->map_i.map_h - 1;
 	tmp = flat_map;
 	fdf->map_i.z_min = tmp->z;
 	fdf->map_i.z_max = tmp->z;
-	while (y < fdf->map_i.map_h)
+	while (y >= 0)
 	{
 		x = 0;
 		fdf->map_i.map[y] = (int *)malloc(sizeof(int) * fdf->map_i.map_w);
@@ -78,7 +78,7 @@ void	map_to_arr(t_point *flat_map, t_fdf *fdf)
 			tmp = tmp->next;
 			x++;
 		}
-		y++;
+		y--;
 	}
 }
 

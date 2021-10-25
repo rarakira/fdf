@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 15:14:32 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/22 13:55:23 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 11:22:20 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ t_point	*ft_point_new(char *z)
 	}
 	ft_split_free(str);
 	return (point);
+}
+
+void	add_line_front(t_point **start, t_point *new)
+{
+	t_point	*tmp;
+
+	tmp = ft_point_last(new);
+	if (new)
+	{
+		tmp->next = *start;
+		*start = new;
+	}
 }
 
 t_point	*ft_point_last(t_point *lst)

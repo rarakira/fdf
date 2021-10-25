@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 15:16:00 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/23 00:16:59 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 11:44:52 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,39 +90,19 @@ void my_draw_line(t_fdf *fdf, int x_start, int y_start, int x_end, int y_end, in
 		my_mlx_pixel_put(fdf, x_end, y_end, color);
 }
 
-/*
-int	map_point_x(int	y, int x, int z)
-{
-	//printf("MAP X:\nx = %d, y = %d, z = %d\n", x, y, z);
-	//printf("sum = %d\n", x * 1 + y * 1 + z * 0);
-	return ((int)((x * 1 + y * 1 + z * 0) * 20));
-}
-
-int	map_point_y(int	y, int x, int z)
-{
-	//printf("MAP Y:\nx = %d, y = %d, z = %d\n", x, y, z);
-	//printf("sum = %f\n", (x * (-0.5) + y * 0.5 + z * 1));
-	return ((int)((x * (-0.5) + y * 0.5 + z * -1) * 20));
-} */
-
-// x_cart = (x + y) * cos(RAD_ANGLE);
 int	map_point_x(int x, int	y, int z, t_fdf	*fdf)
 {
 	double	x_cart;
 	(void) z;
 
-	//ft_printf("map_point_x()\n");
 	x_cart = (x - y) * cos(RAD_ANGLE);
 	return ((int)(x_cart * fdf->map_i.z_depth) + fdf->camera.x_offset);
 }
 
-// y_cart = -z + (x + y) * sin(RAD_ANGLE);
-// y_cart = -z + x * -sin(RAD_ANGLE) + y * sin(RAD_ANGLE);
 int	map_point_y(int x, int	y, int z, t_fdf	*fdf)
 {
 	double	y_cart;
 
-	//ft_printf("map_point_y()\n");
 	y_cart = -z + (x + y) * sin(RAD_ANGLE);
 	return ((int)(y_cart * fdf->map_i.z_depth) + fdf->camera.y_offset);
 }

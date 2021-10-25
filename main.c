@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:00:54 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 14:17:47 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 18:18:15 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,18 @@ void	print_matrix(t_fdf *fdf)
 	}
 }
 
+void	print_colors(t_fdf *fdf)
+{
+	for (int i = 0; i < fdf->map_i.map_h; i++)
+	{
+		for (int j = 0; j < fdf->map_i.map_w; j++)
+		{
+			ft_printf("%d\t", fdf->map_i.color[i][j]);
+		}
+		ft_printf("\n");
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_fdf		fdf;
@@ -119,6 +131,7 @@ int	main(int argc, char **argv)
 		init_map(argv[1], &fdf);
 		ft_printf("MAP init: success\n map_w = %d, map_h = %d, z_min = %d, z_max = %d\n", fdf.map_i.map_w, fdf.map_i.map_h, fdf.map_i.z_min, fdf.map_i.z_max);
 		//print_matrix(&fdf);
+		//print_colors(&fdf);
 		init_mlx(&fdf);
 		init_camera(&fdf);
 		register_hooks(&fdf);

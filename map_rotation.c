@@ -6,19 +6,48 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:31:10 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 14:58:14 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 19:00:32 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void x_rotation(t_point *this, double xx)
+static void	x_rotation(t_point *this, double xx)
 {
-	int	z;
-	int y;
+	int	y;
+	int z;
 
-	z = this->z;
 	y = this->y;
+	z = this->z;
 	this->y = (int)(y * cos(xx) + z * sin(xx));
 	this->z = (int)(-y * sin(xx) + z * cos(xx));
+}
+
+static void	y_rotation(t_point *this, double yy)
+{
+	int	x;
+	int z;
+
+	x = this->x;
+	z = this->z;
+	this->x = (int)(x * cos(yy) + z * sin(yy));
+	this->z = (int)(-x * sin(yy) + z * cos(yy));
+}
+
+static void	z_rotation(t_point *this, double zz)
+{
+	int	x;
+	int y;
+
+	x = this->x;
+	y = this->y;
+	this->x = (int)(x * cos(zz) - y * sin(zz));
+	this->y = (int)(x * sin(zz) + y * cos(zz));
+}
+
+void	rotate_point(t_point *this, t_fdf *fdf)
+{
+	z_rotation(this, fdf->camera.zz);
+	x_rotation(this, fdf->camera.xx);
+	y_rotation(this, fdf->camera.yy);
 }

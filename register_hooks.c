@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 12:43:10 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 11:42:27 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 18:46:42 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,17 @@ int	key_hook(int keycode, t_fdf *fdf)
 {
 	(void) fdf;
 	if (keycode == 123 || keycode == 124 || keycode == 125 || keycode == 126
-		|| keycode == 24 || keycode == 27 || keycode == 18 || keycode == 19)
+		|| keycode == 24 || keycode == 27 || keycode == 18 || keycode == 19
+		|| keycode == 20 || keycode == 21 || keycode == 22 || keycode == 23)
 	{
 		if (keycode == 125)
-			fdf->camera.y_offset -= 15;
+			fdf->camera.y_offset -= 30;
 		if (keycode == 126)
-			fdf->camera.y_offset += 15;
+			fdf->camera.y_offset += 30;
 		if (keycode == 124)
-			fdf->camera.x_offset -= 15;
+			fdf->camera.x_offset -= 30;
 		if (keycode == 123)
-			fdf->camera.x_offset += 15;
+			fdf->camera.x_offset += 30;
 		if (keycode == 27)
 			fdf->map_i.z_depth -= 1;
 		if (keycode == 24)
@@ -34,6 +35,14 @@ int	key_hook(int keycode, t_fdf *fdf)
 			fdf->camera.xx -= 0.2;
 		if (keycode == 19)
 			fdf->camera.xx += 0.2;
+		if (keycode == 20)
+			fdf->camera.yy -= 0.2;
+		if (keycode == 21)
+			fdf->camera.yy += 0.2;
+		if (keycode == 22)
+			fdf->camera.zz -= 0.2;
+		if (keycode == 23)
+			fdf->camera.zz += 0.2;
 		mlx_clear_window(fdf->mlx, fdf->win);
 		draw_map(fdf, fdf->map_i.map);
 		mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);

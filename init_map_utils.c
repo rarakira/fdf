@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 10:49:06 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 11:19:15 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 18:10:30 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	color_to_arr(t_point *flat_map, t_fdf *fdf)
 		}
 		while (x < fdf->map_i.map_w && tmp)
 		{
-			fdf->map_i.color[y][x] = tmp->z;
+			fdf->map_i.color[y][x] = tmp->color;
 			tmp = tmp->next;
 			x++;
 		}

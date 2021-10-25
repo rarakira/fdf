@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 14:21:28 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 18:55:39 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int		map_point_y(int x, int y, t_fdf *fdf);
 int		find_diff(int a, int b);
 
 /* Map rotation */
-void x_rotation(t_point *this, double xx);
+void	rotate_point(t_point *this, t_fdf *fdf);
 
 /* t_point functions */
 t_point	*ft_point_new(char *z);

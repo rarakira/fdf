@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 15:16:00 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 14:53:32 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 18:55:01 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void draw_line(t_fdf *fdf, t_point *start, t_point *end)
 	double	increment_x;
 	double	increment_y;
 	int		color = start->color;
-
+	// printf("Col = %d\t", color);
 	// if (offscreen(x_start, y_start) && offscreen(x_end, y_end))
 	// 	return ; // gives cool dissapearing effect
 	//printf("DRAW: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start->x, start->y, end->x, end->y);
@@ -166,7 +166,7 @@ int	map_point_x(int x, int y, t_fdf *fdf)
 	double	x_cart;
 
 	x_cart = (x - y) * cos(RAD_ANGLE);
-	return ((int)(x_cart * fdf->map_i.z_depth) + fdf->camera.x_offset);
+	return ((int)(x_cart) + fdf->camera.x_offset);
 }
 
 int	map_point_y(int x, int y, t_fdf *fdf)
@@ -174,7 +174,7 @@ int	map_point_y(int x, int y, t_fdf *fdf)
 	double	y_cart;
 
 	y_cart = -(fdf->map_i.map[y][x]) + (x + y) * sin(RAD_ANGLE);
-	return ((int)(y_cart * fdf->map_i.z_depth) + fdf->camera.y_offset);
+	return ((int)(y_cart) + fdf->camera.y_offset);
 }
 
 void map_points(t_point *this, t_fdf *fdf)
@@ -188,8 +188,8 @@ void map_points(t_point *this, t_fdf *fdf)
 	tmp.z = this->z;
 	x_cart = (tmp.x - tmp.y) * cos(RAD_ANGLE);
 	y_cart = -(tmp.z) + (tmp.x + tmp.y) * sin(RAD_ANGLE);
-	this->x = (int)(x_cart * fdf->map_i.z_depth) + fdf->camera.x_offset;
-	this->y = (int)(y_cart * fdf->map_i.z_depth) + fdf->camera.y_offset;
+	this->x = (int)(x_cart) + fdf->camera.x_offset;
+	this->y = (int)(y_cart) + fdf->camera.y_offset;
 }
 
 void	fill_background(t_fdf *fdf)
@@ -223,42 +223,46 @@ void	draw_map(t_fdf	*fdf, int	**map)
 		{
 			if (x < (fdf->map_i.map_w - 1)) // draw horizontal
 			{
-				start.x = x;
-				start.y = y;
-				start.z = map[y][x];
-				fin.x = x + 1;
-				fin.y = y;
-				fin.z = map[y][x + 1];
+				start.x = (x - fdf->map_i.map_w / 2) * fdf->map_i.z_depth;
+				start.y = (y - fdf->map_i.map_h / 2) * fdf->map_i.z_depth;
+				start.z = map[y][x] * fdf->map_i.z_depth;
+				fin.x = ((x + 1) - fdf->map_i.map_w / 2) * fdf->map_i.z_depth;
+				fin.y = (y - fdf->map_i.map_h / 2) * fdf->map_i.z_depth;
+				fin.z = map[y][x + 1] * fdf->map_i.z_depth;
+				// printf("\nHOR: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start.x, start.y, fin.x, fin.y);
+				start.color = fdf->map_i.color[y][x];
 				fin.color = fdf->map_i.color[y][x + 1];
-				//if (start.color == -1)
-				start.color = COL_YELLOW;
+				if (start.color == -1)
+					start.color = COL_YELLOW;
 				if (fin.color == -1)
 					fin.color = COL_YELLOW;
-				x_rotation(&start, fdf->camera.xx);
-				x_rotation(&fin, fdf->camera.xx);
+				rotate_point(&start, fdf);
+				rotate_point(&fin, fdf);
 				map_points(&start, fdf);
 				map_points(&fin, fdf);
-				printf("HOR: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start.x, start.y, fin.x, fin.y);
+				// printf("\nHOR: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start.x, start.y, fin.x, fin.y);
 				draw_line(fdf, &start, &fin);
 			}
 			if (y < (fdf->map_i.map_h - 1)) // draw vertical
 			{
-				start.x = x;
-				start.y = y;
-				start.z = map[y][x];
-				fin.x = x;
-				fin.y = y + 1;
-				fin.z = map[y + 1][x];
+				start.x = (x - fdf->map_i.map_w / 2) * fdf->map_i.z_depth;
+				start.y = (y - fdf->map_i.map_h / 2) * fdf->map_i.z_depth;
+				start.z = map[y][x] * fdf->map_i.z_depth;
+				fin.x = (x - fdf->map_i.map_w / 2) * fdf->map_i.z_depth;
+				fin.y = ((y + 1) - fdf->map_i.map_h / 2) * fdf->map_i.z_depth;
+				fin.z = map[y + 1][x] * fdf->map_i.z_depth;
+				// printf("\nVERT: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start.x, start.y, fin.x, fin.y);
+				start.color = fdf->map_i.color[y][x];
 				start.color = fdf->map_i.color[y + 1][x];
-				//if (start.color == -1)
-				start.color = COL_RED;
+				if (start.color == -1)
+					start.color = COL_RED;
 				if (fin.color == -1)
 					fin.color = COL_RED;
-				x_rotation(&start, fdf->camera.xx);
-				x_rotation(&fin, fdf->camera.xx);
+				rotate_point(&start, fdf);
+				rotate_point(&fin, fdf);
 				map_points(&start, fdf);
 				map_points(&fin, fdf);
-				printf("VERT: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start.x, start.y, fin.x, fin.y);
+				// printf("\nVERT: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start.x, start.y, fin.x, fin.y);
 				draw_line(fdf, &start, &fin);
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:00:54 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 11:23:05 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 14:17:47 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,23 @@ void	init_fdf(t_fdf *fdf)
 	ft_printf("FDF init: All good\n");
 }
 
+static int	here_map_point_x(int x, int y, int z, t_fdf *fdf)
+{
+	double	x_cart;
+	(void)	z;
+
+	x_cart = (x - y) * cos(RAD_ANGLE);
+	return ((int)(x_cart * fdf->map_i.z_depth));
+}
+
+static int	here_map_point_y(int x, int y, int z, t_fdf *fdf)
+{
+	double	y_cart;
+
+	y_cart = -z + (x + y) * sin(RAD_ANGLE);
+	return ((int)(y_cart * fdf->map_i.z_depth));
+}
+
 void	init_camera(t_fdf *fdf)
 {
 	int	width;
@@ -54,14 +71,14 @@ void	init_camera(t_fdf *fdf)
 
 	ft_printf("CAM INIT : Started\n");
 	ft_printf("fdf->map_i.map_w - 1 = %d\n", fdf->map_i.map_w - 1);
-	ft_printf("left: %d || right: %d", map_point_x(fdf->map_i.map_w - 1, 0, 0, fdf), map_point_x(0, fdf->map_i.map_h - 1, 0, fdf));
-	width = map_point_x(fdf->map_i.map_w - 1, 0, 0, fdf) - map_point_x(0, fdf->map_i.map_h - 1, 0, fdf);
+	ft_printf("left: %d || right: %d\n", here_map_point_x(fdf->map_i.map_w - 1, 0, 0, fdf), here_map_point_x(0, fdf->map_i.map_h - 1, 0, fdf));
+	width = here_map_point_x(fdf->map_i.map_w - 1, 0, 0, fdf) - here_map_point_x(0, fdf->map_i.map_h - 1, 0, fdf);
 	ft_printf("w = %d\n", width);
 	if (fdf->map_i.z_min < 0 && fdf->map_i.z_max < 0)
 		height = fdf->map_i.z_min - fdf->map_i.z_max;
 	else
 		height = fdf->map_i.z_max - fdf->map_i.z_min;
-	height += map_point_y(fdf->map_i.map_h - 1, fdf->map_i.map_w - 1, 0, fdf);
+	height += here_map_point_y(fdf->map_i.map_h - 1, fdf->map_i.map_w - 1, 0, fdf);
 	ft_printf("h = %d\n", height);
 	depth_h = IMG_HEIGHT / height;
 	depth_w = IMG_WIDTH / width;

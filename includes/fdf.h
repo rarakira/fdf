@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 11:17:51 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/25 14:21:28 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,14 @@ int		free_points(t_point *list);
 
 /* Drawing image functions */
 void	draw_map(t_fdf *fdf, int **map);
-int		map_point_y(int x, int	y, int z, t_fdf	*fdf);
-int		map_point_x(int x, int	y, int z, t_fdf	*fdf);
+int		map_point_x(int x, int y, t_fdf *fdf);
+int		map_point_y(int x, int y, t_fdf *fdf);
 int		find_diff(int a, int b);
 
-/* t_point functions */
+/* Map rotation */
+void x_rotation(t_point *this, double xx);
 
+/* t_point functions */
 t_point	*ft_point_new(char *z);
 t_point	*ft_point_last(t_point *lst);
 void	add_line_front(t_point **start, t_point *new);

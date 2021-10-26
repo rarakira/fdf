@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 18:55:39 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/26 10:07:59 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,12 @@ void	free_arr(int **arr, int depth);
 int		free_points(t_point *list);
 
 /* Drawing image functions */
-void	draw_map(t_fdf *fdf, int **map);
+void	draw_map(t_fdf *fdf);
 int		map_point_x(int x, int y, t_fdf *fdf);
 int		map_point_y(int x, int y, t_fdf *fdf);
 int		find_diff(int a, int b);
+int		get_grad_color(int start, int end, double percentage);
+double	find_percent(int start, int end, int current);
 
 /* Map rotation */
 void	rotate_point(t_point *this, t_fdf *fdf);

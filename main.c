@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:00:54 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 18:18:15 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/26 11:07:05 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int	main(int argc, char **argv)
 		init_mlx(&fdf);
 		init_camera(&fdf);
 		register_hooks(&fdf);
-		draw_map(&fdf, fdf.map_i.map);
+		draw_map(&fdf);
 		mlx_put_image_to_window(fdf.mlx, fdf.win, fdf.img, 0, 0);
 		ft_printf("Bpp: %d, win_w = %d, win_h = %d line_len = %d\n", fdf.bits_per_pixel, WIN_WIDTH, WIN_HEIGHT, fdf.line_length);
 		mlx_loop(fdf.mlx);

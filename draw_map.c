@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 15:16:00 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 18:55:01 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/26 11:04:08 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void draw_line(t_fdf *fdf, t_point *start, t_point *end)
 	double	y;
 	double	increment_x;
 	double	increment_y;
-	int		color = start->color;
 	// printf("Col = %d\t", color);
 	// if (offscreen(x_start, y_start) && offscreen(x_end, y_end))
 	// 	return ; // gives cool dissapearing effect
@@ -112,7 +111,7 @@ void draw_line(t_fdf *fdf, t_point *start, t_point *end)
 	int diff_x = find_diff(start->x, end->x);
 	int diff_y = find_diff(start->y, end->y);
 	if (!offscreen(start->x, start->y))
-		my_mlx_pixel_put(fdf, start->x, start->y, color);
+		my_mlx_pixel_put(fdf, start->x, start->y, start->color);
 	if (diff_x < diff_y)
 	{
 		increment_x *= diff_x / (float) diff_y;
@@ -121,7 +120,7 @@ void draw_line(t_fdf *fdf, t_point *start, t_point *end)
 			y += increment_y;
 			x += increment_x;
 			if (!offscreen(round(x), round(y)))
-				my_mlx_pixel_put(fdf, round(x), round(y), color);
+				my_mlx_pixel_put(fdf, round(x), round(y), get_grad_color(start->color, end->color, find_percent(start->y, end->y, round(y))));
 		}
 	}
 	else
@@ -132,11 +131,11 @@ void draw_line(t_fdf *fdf, t_point *start, t_point *end)
 			y += increment_y;
 			x += increment_x;
 			if (!offscreen(round(x), round(y)))
-				my_mlx_pixel_put(fdf, round(x), round(y), color);
+				my_mlx_pixel_put(fdf, round(x), round(y), get_grad_color(start->color, end->color, find_percent(start->x, end->x, round(x))));
 		}
 	}
 	if (!offscreen(end->x, end->y))
-		my_mlx_pixel_put(fdf, end->x, end->y, color);
+		my_mlx_pixel_put(fdf, end->x, end->y, end->color);
 }
 
 /*
@@ -210,10 +209,80 @@ void	fill_background(t_fdf *fdf)
 	}
 }
 
+void	draw_horizontal_line(int x, int y, t_fdf *fdf)
+{
+	t_point		start;
+	t_point		fin;
+
+	start.x = (x - fdf->map_i.map_w / 2) * fdf->map_i.z_depth;
+	start.y = (y - fdf->map_i.map_h / 2) * fdf->map_i.z_depth;
+	start.z = fdf->map_i.map[y][x] * fdf->map_i.z_depth;
+	fin.x = ((x + 1) - fdf->map_i.map_w / 2) * fdf->map_i.z_depth;
+	fin.y = (y - fdf->map_i.map_h / 2) * fdf->map_i.z_depth;
+	fin.z = fdf->map_i.map[y][x + 1] * fdf->map_i.z_depth;
+	start.color = fdf->map_i.color[y][x];
+	fin.color = fdf->map_i.color[y][x + 1];
+	if (start.color == -1)
+		start.color = COL_YELLOW;
+	if (fin.color == -1)
+		fin.color = COL_YELLOW;
+	rotate_point(&start, fdf);
+	rotate_point(&fin, fdf);
+	map_points(&start, fdf);
+	map_points(&fin, fdf);
+	draw_line(fdf, &start, &fin);
+}
+
+void	draw_vertical_line(int x, int y, t_fdf *fdf)
+{
+	t_point		start;
+	t_point		fin;
+
+	start.x = (x - fdf->map_i.map_w / 2) * fdf->map_i.z_depth;
+	start.y = (y - fdf->map_i.map_h / 2) * fdf->map_i.z_depth;
+	start.z = fdf->map_i.map[y][x] * fdf->map_i.z_depth;
+	fin.x = (x - fdf->map_i.map_w / 2) * fdf->map_i.z_depth;
+	fin.y = ((y + 1) - fdf->map_i.map_h / 2) * fdf->map_i.z_depth;
+	fin.z = fdf->map_i.map[y + 1][x] * fdf->map_i.z_depth;
+	start.color = fdf->map_i.color[y][x];
+	fin.color = fdf->map_i.color[y + 1][x];
+	if (start.color == -1)
+		start.color = COL_YELLOW;
+	if (fin.color == -1)
+		fin.color = COL_YELLOW;
+	rotate_point(&start, fdf);
+	rotate_point(&fin, fdf);
+	map_points(&start, fdf);
+	map_points(&fin, fdf);
+	draw_line(fdf, &start, &fin);
+}
+
+void	draw_map(t_fdf	*fdf)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	fill_background(fdf);
+	while (y < fdf->map_i.map_h)
+	{
+		x = 0;
+		while (x < fdf->map_i.map_w)
+		{
+			if (x < (fdf->map_i.map_w - 1))
+				draw_horizontal_line(x, y, fdf);
+			if (y < (fdf->map_i.map_h - 1))
+				draw_vertical_line(x, y, fdf);
+			x++;
+		}
+		y++;
+	}
+}
+
+/*
 void	draw_map(t_fdf	*fdf, int	**map)
 {
 	fill_background(fdf);
-	/* Drawing map */
 	t_point		start;
 	t_point		fin;
 
@@ -267,68 +336,4 @@ void	draw_map(t_fdf	*fdf, int	**map)
 			}
 		}
 	}
-}
-
-/*
-void	draw_map(t_fdf	*fdf, int	**map)
-{
-	fill_background(fdf);
-	t_point		start;
-	t_point		fin;
-
-	for (int y = 0; y < fdf->map_i.map_h; y++)
-	{
-		for (int x = 0; x < fdf->map_i.map_w; x++)
-		{
-			printf("\e[1;48;5;210;38;5;203my = %d, x = %d\e[0m\n", y, x);
-			//start.color = fdf->map_i.color[y][x];
-			if (x < (fdf->map_i.map_w - 1)) // draw horizontal
-			{
-				start.y = y;
-				start.x = x;
-				start.z = map[y][x];
-				fin.x = x + 1;
-				fin.y = y;
-				fin.z = map[y][x + 1];
-				fin.color = fdf->map_i.color[y][x + 1];
-				//if (start.color == -1)
-				start.color = COL_YELLOW;
-				if (fin.color == -1)
-					fin.color = COL_YELLOW;
-				printf("HOR: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start.x, start.y, fin.x, fin.y);
-				//x_rotation(&start, fdf->camera.xx);
-				//x_rotation(&fin, fdf->camera.xx);
-				start.x = map_point_x(&start, fdf);
-				start.y = map_point_y(&start, fdf);
-				fin.x = map_point_x(&fin, fdf);
-				fin.y = map_point_y(&fin, fdf);
-				printf("RES: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start.x, start.y, fin.x, fin.y);
-				draw_line(fdf, &start, &fin);
-			}
-			if (y < (fdf->map_i.map_h - 1)) // draw vertical
-			{
-				start.y = y;
-				start.x = x;
-				start.z = map[y][x];
-				fin.x = x;
-				fin.y = y + 1;
-				fin.z = map[y + 1][x];
-				start.color = fdf->map_i.color[y + 1][x];
-				//if (start.color == -1)
-				start.color = COL_RED;
-				if (fin.color == -1)
-					fin.color = COL_RED;
-				printf("VERT: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start.x, start.y, fin.x, fin.y);
-				//x_rotation(&start, fdf->camera.xx);
-				//x_rotation(&fin, fdf->camera.xx);
-				start.x = map_point_x(&start, fdf);
-				start.y = map_point_y(&start, fdf);
-				fin.x = map_point_x(&fin, fdf);
-				fin.y = map_point_y(&fin, fdf);
-				printf("RES: x_start = %d, y_start = %d, x_fin = %d, y_fin = %d\n", start.x, start.y, fin.x, fin.y);
-				draw_line(fdf, &start, &fin);
-			}
-		}
-	}
-}
-*/
+} */

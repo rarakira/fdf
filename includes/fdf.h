@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/26 10:07:59 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/26 17:02:06 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ typedef struct s_point {
 	struct s_point		*next;
 }						t_point;
 
+typedef struct s_pair {
+	double		x;
+	double		y;
+}				t_pair;
+
 typedef struct s_fdf {
 	void		*mlx;
 	void		*win;
@@ -81,6 +86,7 @@ void	register_hooks(t_fdf *fdf);
 void	list_to_arr(t_point *flat_map, t_fdf *fdf);
 void	map_to_arr(t_point *flat_map, t_fdf *fdf);
 void	color_to_arr(t_point *flat_map, t_fdf *fdf);
+void	update_colors(t_fdf *fdf);
 
 /* Error management */
 void	exit_on_error(char	*msg);
@@ -92,16 +98,20 @@ int		free_points(t_point *list);
 
 /* Drawing image functions */
 void	draw_map(t_fdf *fdf);
-int		map_point_x(int x, int y, t_fdf *fdf);
-int		map_point_y(int x, int y, t_fdf *fdf);
 int		find_diff(int a, int b);
 int		get_grad_color(int start, int end, double percentage);
 double	find_percent(int start, int end, int current);
+void	fill_background(t_fdf *fdf);
+void 	map_points(t_point *this, t_fdf *fdf);
+void	draw_line(t_fdf *fdf, t_point *start, t_point *end);
+void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color);
+
 
 /* Map rotation */
 void	rotate_point(t_point *this, t_fdf *fdf);
 
 /* t_point functions */
+void	init_tpoint(t_point *this, int x, int y, int z);
 t_point	*ft_point_new(char *z);
 t_point	*ft_point_last(t_point *lst);
 void	add_line_front(t_point **start, t_point *new);

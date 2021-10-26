@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 12:43:10 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 18:46:42 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/26 12:58:37 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	key_hook(int keycode, t_fdf *fdf)
 		if (keycode == 23)
 			fdf->camera.zz += 0.2;
 		mlx_clear_window(fdf->mlx, fdf->win);
-		draw_map(fdf, fdf->map_i.map);
+		draw_map(fdf);
 		mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
 	}
 	else

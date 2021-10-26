@@ -3,8 +3,9 @@ NAME		=	fdf
 SRCS		=	main.c				exit_program.c		\
 				init_map.c			init_map_utils.c	\
 				register_hooks.c	free_memory.c 		\
-				t_point_list_fns.c	draw_map.c			\
-				map_rotation.c		draw_and_color.c
+				t_point_list_fns.c	map_rotation.c		\
+				draw_map.c			draw_map_utils.c	\
+				draw_and_color.c	draw_line.c 
 
 OBJS		=	$(SRCS:.c=.o)
 

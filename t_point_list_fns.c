@@ -6,12 +6,26 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 15:14:32 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 11:22:20 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/26 14:01:56 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/*
+**	Assign x, y & z to *this staructure.
+*/
+void	init_tpoint(t_point *this, int x, int y, int z)
+{
+	this->x = x;
+	this->y = y;
+	this->z = z;
+}
+
+/*
+**	Create a new malloced t_point structure, parse *z and add assign 'z' and 'color'.
+**	Return pointer to the structure or NULL on memory allocation error.
+*/
 t_point	*ft_point_new(char *z)
 {
 	t_point	*point;

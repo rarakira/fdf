@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:41:56 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 11:26:34 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/26 11:40:28 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,32 @@ t_point	*read_map(int fd, t_map *map_i)
 }
 
 /*
+** Check if map contained colors. Returns 0 if no colors are present
+*/
+static int	colors_empty(int **map, int x, int y)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < y)
+	{
+		j = 0;
+		while (j < x)
+		{
+			if (map[i][j] != -1)
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
+/*
 ** Check file permissions, malloc map array inside the structure.
 */
-void	init_map(char	*map_file, t_fdf *fdf)
+void	init_map(char *map_file, t_fdf *fdf)
 {
 	int		fd;
 	t_point	*flat_map;
@@ -102,4 +125,6 @@ void	init_map(char	*map_file, t_fdf *fdf)
 		exit_on_error(ERR_LINE_W);
 	list_to_arr(flat_map, fdf);
 	free_points(flat_map);
+	if (colors_empty(fdf->map_i.color, fdf->map_i.map_w, fdf->map_i.map_h))
+		update_colors(fdf);
 }

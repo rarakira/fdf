@@ -6,12 +6,33 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 10:49:06 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/25 18:10:30 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/26 11:40:40 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "error_messages.h"
+
+/*
+** Calculate colors based on height (z) for each point on map.
+*/
+void	update_colors(t_fdf *fdf)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < fdf->map_i.map_h)
+	{
+		j = 0;
+		while (j < fdf->map_i.map_w)
+		{
+			fdf->map_i.color[i][j] = get_grad_color(COL_RED, COL_YELLOW, find_percent(fdf->map_i.z_min, fdf->map_i.z_max, fdf->map_i.map[i][j]));
+			j++;
+		}
+		i++;
+	}
+}
 
 /*
 ** Allocate memory and copy color-value to the color-array.

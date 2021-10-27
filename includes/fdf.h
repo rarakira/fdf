@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/27 11:12:57 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 12:55:46 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_fdf {
 /* Init program functions */
 void	init_map(char *map_file, t_fdf *fdf);
 void	register_hooks(t_fdf *fdf);
+int		key_hook(int keycode, t_fdf *fdf);
 
 /* Init map functions */
 void	list_to_arr(t_point *flat_map, t_fdf *fdf);
@@ -105,7 +106,6 @@ void	fill_background(t_fdf *fdf);
 void 	map_points(t_point *this, t_fdf *fdf);
 void	draw_line(t_fdf *fdf, t_point *start, t_point *end);
 void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color);
-
 
 /* Map rotation */
 void	rotate_point(t_point *this, t_fdf *fdf);

@@ -1,20 +1,21 @@
 NAME		=	fdf
 
-SRCS		=	main.c				exit_program.c		\
-				init_map.c			init_map_utils.c	\
-				register_hooks.c	free_memory.c 		\
-				t_point_list_fns.c	map_rotation.c		\
-				draw_map.c			draw_map_utils.c	\
-				draw_and_color.c	draw_line.c 
+SRCS		=	main.c					exit_program.c			\
+				init_map.c				init_map_utils.c		\
+				register_hooks.c		register_hooks_utils.c	\
+				t_point_list_fns.c		map_rotation.c			\
+				draw_map.c				draw_map_utils.c		\
+				draw_and_color.c		draw_line.c				\
+				free_memory.c
 
 OBJS		=	$(SRCS:.c=.o)
 
 INCLUDES	=	-Iincludes
 
-H_FILES		=	includes/error_messages.h				\
-				includes/fdf.h							\
-				includes/libft.h						\
-				includes/ft_printf.h					\
+H_FILES		=	includes/error_messages.h						\
+				includes/fdf.h									\
+				includes/libft.h								\
+				includes/ft_printf.h							\
 				includes/mlx.h
 
 LIB			=	ft

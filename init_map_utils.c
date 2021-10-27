@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 10:49:06 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/26 11:40:40 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 11:38:40 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	update_colors(t_fdf *fdf)
 		j = 0;
 		while (j < fdf->map_i.map_w)
 		{
-			fdf->map_i.color[i][j] = get_grad_color(COL_RED, COL_YELLOW, find_percent(fdf->map_i.z_min, fdf->map_i.z_max, fdf->map_i.map[i][j]));
+			fdf->map_i.color[i][j] = get_grad_color(COL_RED, COL_YELLOW,
+					find_percent(fdf->map_i.z_min,
+						fdf->map_i.z_max,
+						fdf->map_i.map[i][j]));
 			j++;
 		}
 		i++;
@@ -66,6 +69,19 @@ void	color_to_arr(t_point *flat_map, t_fdf *fdf)
 	}
 }
 
+void	check_min_max(t_fdf *fdf, int z, int first)
+{
+	if (first)
+	{
+		fdf->map_i.z_min = z;
+		fdf->map_i.z_max = z;
+	}
+	if (fdf->map_i.z_min > z)
+		fdf->map_i.z_min = z;
+	if (fdf->map_i.z_max < z)
+		fdf->map_i.z_max = z;
+}
+
 /*
 ** Allocate memory and copy z-value to the map-array.
 */
@@ -77,8 +93,7 @@ void	map_to_arr(t_point *flat_map, t_fdf *fdf)
 
 	y = fdf->map_i.map_h - 1;
 	tmp = flat_map;
-	fdf->map_i.z_min = tmp->z;
-	fdf->map_i.z_max = tmp->z;
+	check_min_max(fdf, tmp->z, 1);
 	while (y >= 0)
 	{
 		x = 0;
@@ -91,13 +106,9 @@ void	map_to_arr(t_point *flat_map, t_fdf *fdf)
 		}
 		while (x < fdf->map_i.map_w && tmp)
 		{
-			if (fdf->map_i.z_min > tmp->z)
-				fdf->map_i.z_min = tmp->z;
-			if (fdf->map_i.z_max < tmp->z)
-				fdf->map_i.z_max = tmp->z;
-			fdf->map_i.map[y][x] = tmp->z;
+			check_min_max(fdf, tmp->z, 0);
+			fdf->map_i.map[y][x++] = tmp->z;
 			tmp = tmp->next;
-			x++;
 		}
 		y--;
 	}

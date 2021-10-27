@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 15:14:32 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/26 14:01:56 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 11:13:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	init_tpoint(t_point *this, int x, int y, int z)
 }
 
 /*
-**	Create a new malloced t_point structure, parse *z and add assign 'z' and 'color'.
+**	Create a new malloced t_point structure, parse *z
+**	and assign 'z' and 'color'.
 **	Return pointer to the structure or NULL on memory allocation error.
 */
 t_point	*ft_point_new(char *z)
@@ -79,15 +80,6 @@ t_point	*ft_point_last(t_point *lst)
 	return (tmp);
 }
 
-void	ft_point_add_front(t_point **start, t_point *new)
-{
-	if (new)
-	{
-		new->next = *start;
-		*start = new;
-	}
-}
-
 void	ft_point_add_back(t_point **start, t_point *new)
 {
 	t_point	*tmp;
@@ -103,3 +95,16 @@ void	ft_point_add_back(t_point **start, t_point *new)
 			*start = new;
 	}
 }
+
+/*
+
+void	ft_point_add_front(t_point **start, t_point *new)
+{
+	if (new)
+	{
+		new->next = *start;
+		*start = new;
+	}
+}
+
+*/

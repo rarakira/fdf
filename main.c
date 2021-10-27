@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:00:54 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/26 13:07:51 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 12:37:04 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,59 @@ void	init_fdf(t_fdf *fdf)
 	ft_printf("FDF init: All good\n");
 }
 
+void	init_camera(t_fdf *fdf)
+{
+	int	width;
+	int	height;
+	int	depth_h;
+	int	depth_w;
+
+	width = (fdf->map_i.map_w + fdf->map_i.map_h) * cos(RAD_ANGLE);
+	height = (int) find_diff(fdf->map_i.z_max, fdf->map_i.z_min);
+	height += (fdf->map_i.map_h + fdf->map_i.map_w - 2) * sin(RAD_ANGLE);
+	depth_h = round(IMG_HEIGHT / (float) height);
+	depth_w = round(IMG_WIDTH / (float) width);
+	if (depth_h > depth_w)
+		fdf->map_i.z_depth = depth_w;
+	else
+		fdf->map_i.z_depth = depth_h;
+	width *= fdf->map_i.z_depth;
+	height *= fdf->map_i.z_depth;
+	fdf->camera.x_offset = WIN_WIDTH / 2;
+	fdf->camera.y_offset = 100 + height / 2;
+	ft_printf("PROJECTION : Height x Width :: %d x %d\n", height, width);
+	ft_printf("CAMERA init: All good\n");
+}
+
+int	main(int argc, char **argv)
+{
+	t_fdf		fdf;
+
+	if (argc == 2)
+	{
+		init_fdf(&fdf);
+		init_map(argv[1], &fdf);
+		ft_printf("MAP init: success\n");
+		ft_printf("map_w = %d, map_h = %d, z_min = %d, z_max = %d\n",
+			fdf.map_i.map_w, fdf.map_i.map_h, fdf.map_i.z_min, fdf.map_i.z_max);
+		init_mlx(&fdf);
+		init_camera(&fdf);
+		register_hooks(&fdf);
+		draw_map(&fdf);
+		mlx_put_image_to_window(fdf.mlx, fdf.win, fdf.img, 0, 0);
+		mlx_loop(fdf.mlx);
+	}
+	exit_on_error(ERR_ARGS);
+	return (0);
+}
+
+/*
+
 static int	here_map_point_x(int x, int y, int z, t_fdf *fdf)
 {
 	double	x_cart;
-	(void)	z;
 
+	(void) z;
 	x_cart = (x - y) * cos(RAD_ANGLE);
 	return ((int)(x_cart * fdf->map_i.z_depth));
 }
@@ -69,16 +117,48 @@ void	init_camera(t_fdf *fdf)
 	int	depth_h;
 	int	depth_w;
 
+	width = here_map_point_x(fdf->map_i.map_w - 1, 0, 0, fdf)
+		- here_map_point_x(0, fdf->map_i.map_h - 1, 0, fdf);
+	if (fdf->map_i.z_min < 0 && fdf->map_i.z_max < 0)
+		height = fdf->map_i.z_min - fdf->map_i.z_max;
+	else
+		height = fdf->map_i.z_max - fdf->map_i.z_min;
+	height += here_map_point_y(fdf->map_i.map_h - 1,
+			fdf->map_i.map_w - 1, 0, fdf);
+	depth_h = IMG_HEIGHT / height;
+	depth_w = IMG_WIDTH / width;
+	if (depth_h > depth_w)
+		fdf->map_i.z_depth = depth_w;
+	else
+		fdf->map_i.z_depth = depth_h;
+	width *= fdf->map_i.z_depth;
+	height *= fdf->map_i.z_depth;
+	fdf->camera.x_offset = WIN_WIDTH / 2;
+	fdf->camera.y_offset = 50 + height / 2;
+	ft_printf("PROJECTION : Height x Width :: %d x %d\n", height, width);
+	ft_printf("CAMERA init: All good\n");
+}
+
+void	init_camera(t_fdf *fdf)
+{
+	int	width;
+	int	height;
+	int	depth_h;
+	int	depth_w;
+
 	ft_printf("CAM INIT : Started\n");
-	ft_printf("fdf->map_i.map_w - 1 = %d\n", fdf->map_i.map_w - 1);
-	ft_printf("left: %d || right: %d\n", here_map_point_x(fdf->map_i.map_w - 1, 0, 0, fdf), here_map_point_x(0, fdf->map_i.map_h - 1, 0, fdf));
-	width = here_map_point_x(fdf->map_i.map_w - 1, 0, 0, fdf) - here_map_point_x(0, fdf->map_i.map_h - 1, 0, fdf);
+	ft_printf("left: %d || right: %d\n",
+		here_map_point_x(fdf->map_i.map_w - 1, 0, 0, fdf),
+		here_map_point_x(0, fdf->map_i.map_h - 1, 0, fdf));
+	width = here_map_point_x(fdf->map_i.map_w - 1, 0, 0, fdf)
+		- here_map_point_x(0, fdf->map_i.map_h - 1, 0, fdf);
 	ft_printf("w = %d\n", width);
 	if (fdf->map_i.z_min < 0 && fdf->map_i.z_max < 0)
 		height = fdf->map_i.z_min - fdf->map_i.z_max;
 	else
 		height = fdf->map_i.z_max - fdf->map_i.z_min;
-	height += here_map_point_y(fdf->map_i.map_h - 1, fdf->map_i.map_w - 1, 0, fdf);
+	height += here_map_point_y(fdf->map_i.map_h - 1,
+		fdf->map_i.map_w - 1, 0, fdf);
 	ft_printf("h = %d\n", height);
 	depth_h = IMG_HEIGHT / height;
 	depth_w = IMG_WIDTH / width;
@@ -121,25 +201,4 @@ void	print_colors(t_fdf *fdf)
 	}
 }
 
-int	main(int argc, char **argv)
-{
-	t_fdf		fdf;
-
-	if (argc == 2)
-	{
-		init_fdf(&fdf);
-		init_map(argv[1], &fdf);
-		ft_printf("MAP init: success\n map_w = %d, map_h = %d, z_min = %d, z_max = %d\n", fdf.map_i.map_w, fdf.map_i.map_h, fdf.map_i.z_min, fdf.map_i.z_max);
-		//print_matrix(&fdf);
-		//print_colors(&fdf);
-		init_mlx(&fdf);
-		init_camera(&fdf);
-		register_hooks(&fdf);
-		draw_map(&fdf);
-		mlx_put_image_to_window(fdf.mlx, fdf.win, fdf.img, 0, 0);
-		ft_printf("Bpp: %d, win_w = %d, win_h = %d line_len = %d\n", fdf.bits_per_pixel, WIN_WIDTH, WIN_HEIGHT, fdf.line_length);
-		mlx_loop(fdf.mlx);
-	}
-	exit_on_error(ERR_ARGS);
-	return (0);
-}
+*/

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:10:29 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/26 14:17:17 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 11:40:47 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,17 @@ static int	offscreen(int x, int y)
 	return (0);
 }
 
-void my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color)
+void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color)
 {
-	char *dst;
+	char	*dst;
+
 	if (offscreen(x, y))
 		return ;
 	dst = fdf->addr + (y * fdf->line_length + x * (fdf->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 
-void map_points(t_point *this, t_fdf *fdf)
+void	map_points(t_point *this, t_fdf *fdf)
 {
 	double	x_upd;
 	double	y_upd;

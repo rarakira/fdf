@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 15:16:00 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/26 14:10:17 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 12:29:12 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ void	draw_horizontal_line(int x, int y, t_fdf *fdf)
 	t_point		start;
 	t_point		fin;
 
-	start.x = (x - fdf->map_i.map_w / 2) * fdf->map_i.z_depth;
-	start.y = (y - fdf->map_i.map_h / 2) * fdf->map_i.z_depth;
-	start.z = fdf->map_i.map[y][x] * fdf->map_i.z_depth;
-	fin.x = ((x + 1) - fdf->map_i.map_w / 2) * fdf->map_i.z_depth;
-	fin.y = (y - fdf->map_i.map_h / 2) * fdf->map_i.z_depth;
-	fin.z = fdf->map_i.map[y][x + 1] * fdf->map_i.z_depth;
+	init_tpoint(&start,
+		(x - fdf->map_i.map_w / 2) * fdf->map_i.z_depth,
+		(y - fdf->map_i.map_h / 2) * fdf->map_i.z_depth,
+		fdf->map_i.map[y][x] * fdf->map_i.z_depth);
+	init_tpoint(&fin,
+		((x + 1) - fdf->map_i.map_w / 2) * fdf->map_i.z_depth,
+		(y - fdf->map_i.map_h / 2) * fdf->map_i.z_depth,
+		fdf->map_i.map[y][x + 1] * fdf->map_i.z_depth);
 	start.color = fdf->map_i.color[y][x];
 	fin.color = fdf->map_i.color[y][x + 1];
 	if (start.color == -1)
@@ -116,7 +118,6 @@ void	draw_map(t_fdf *fdf)
 	rotate_point(&fin, fdf);
 	map_points(&start, fdf);
 	map_points(&fin, fdf);
-	//ft_printf("start %d, fin %d\n", start.y, fin.y);
 	if (start.y < fin.y)
 		print_in_order(fdf);
 	else

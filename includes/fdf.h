@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/26 17:02:06 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 11:12:57 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int		free_points(t_point *list);
 
 /* Drawing image functions */
 void	draw_map(t_fdf *fdf);
-int		find_diff(int a, int b);
+float	find_diff(int a, int b);
 int		get_grad_color(int start, int end, double percentage);
 double	find_percent(int start, int end, int current);
 void	fill_background(t_fdf *fdf);
@@ -115,7 +115,6 @@ void	init_tpoint(t_point *this, int x, int y, int z);
 t_point	*ft_point_new(char *z);
 t_point	*ft_point_last(t_point *lst);
 void	add_line_front(t_point **start, t_point *new);
-void	ft_point_add_front(t_point **start, t_point *new);
 void	ft_point_add_back(t_point **start, t_point *new);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:00:54 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/27 16:28:42 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 17:30:27 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	init_camera(t_fdf *fdf)
 
 	width = (fdf->map_i.map_w + fdf->map_i.map_h) * cos(RAD_ANGLE);
 	height = (int) find_diff(fdf->map_i.z_max, fdf->map_i.z_min);
-	height += (fdf->map_i.map_h + fdf->map_i.map_w - 2) * sin(RAD_ANGLE);
+	height += (fdf->map_i.map_h + fdf->map_i.map_w) * sin(RAD_ANGLE);
 	depth_h = round(IMG_HEIGHT / (float) height);
 	depth_w = round(IMG_WIDTH / (float) width);
 	if (depth_h > depth_w)

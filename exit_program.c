@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 12:50:11 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/22 13:12:06 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 16:33:07 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 void	exit_on_error(char	*msg)
 {
 	ft_putendl_fd(msg, 1);
-	//getchar();
+	getchar();
 	exit(1);
 }

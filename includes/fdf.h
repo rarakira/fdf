@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/27 14:03:31 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 17:08:18 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ float	find_diff(int a, int b);
 int		get_grad_color(int start, int end, double percentage);
 double	find_percent(int start, int end, int current);
 void	fill_background(t_fdf *fdf);
-void 	map_points(t_point *this, t_fdf *fdf);
+void	map_points(t_point *this, t_fdf *fdf);
 void	draw_line(t_fdf *fdf, t_point *start, t_point *end);
 void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color);
 

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:41:56 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/27 14:06:21 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 16:32:47 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	parse_line(char **str, t_point **start)
 
 /*
 ** Read file, create and return ordered t_point structure of all map values.
+** Returns NULL on bad lines formatting.
 */
 t_point	*read_map(int fd, t_map *map_i)
 {
@@ -113,15 +114,15 @@ void	init_map(char *map_file, t_fdf *fdf)
 	t_point	*flat_map;
 
 	flat_map = NULL;
-	if (open(map_file, O_DIRECTORY) != -1) // if DIR - exit
+	if (open(map_file, O_DIRECTORY) != -1)
 		exit_on_error(ERR_FD_IS_DIR);
 	fd = open(map_file, O_RDONLY);
-	if (fd == -1) // if troubles opening FD - exit
+	if (fd == -1)
 		exit_on_error(ERR_FD_OPEN);
 	flat_map = read_map(fd, &fdf->map_i);
-	if (close(fd) == -1) // if troubles closing FD - exit
+	if (close(fd) == -1)
 		exit_on_error(ERR_FD_CLOSE);
-	if (!flat_map) // if bad width of lines - exit
+	if (!flat_map)
 		exit_on_error(ERR_LINE_W);
 	list_to_arr(flat_map, fdf);
 	free_points(flat_map);

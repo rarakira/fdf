@@ -6,7 +6,7 @@
 #    By: lbaela <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/18 14:03:12 by lbaela            #+#    #+#              #
-#    Updated: 2021/10/20 11:34:59 by lbaela           ###   ########.fr        #
+#    Updated: 2021/10/27 17:03:57 by lbaela           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,24 +51,28 @@ C_PRINTF =	ft_printf/ft_printf.c										\
 			ft_printf/str_converter/convert_arg_n.c						\
 			ft_printf/str_converter/convert_arg_x_p.c
 
-OBJS = $(CFILES:.c=.o) $(C_PRINTF:.c=.o)
+OBJS		= $(CFILES:.c=.o) $(C_PRINTF:.c=.o)
 
-INCLUDES	=	-I../includes
+D_FILES		= $(CFILES:.c=.d) $(C_PRINTF:.c=.d)
 
-CC = gcc
+INCLUDES	= -I../includes
 
-FLAGS = -Wall -Werror -Wextra
+CC			= gcc
+
+FLAGS		= -Wall -Werror -Wextra
 
 all : $(NAME)
 
-$(NAME) : $(OBJS) ../includes/libft.h ../includes/ft_printf.h
+$(NAME) : $(OBJS)
 	ar rcs $(NAME) $?
 
 %.o : %.c
-	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@ -MD
+
+include $(wildcard $(D_FILES))
 
 clean :
-	@rm -f $(OBJS)
+	@rm -f $(OBJS) $(D_FILES)
 	@echo "\033[1;38;5;221m*  Libft objects removed\033[0m"
 
 fclean : clean

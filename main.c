@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:00:54 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/27 13:04:51 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 16:28:42 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int argc, char **argv)
 		init_fdf(&fdf);
 		init_map(argv[1], &fdf);
 		ft_printf("MAP init: success\n");
-		ft_printf("map_w = %d, map_h = %d, z_min = %d, z_max = %d\n",
+		ft_printf("Map_w = %d, map_h = %d, z_min = %d, z_max = %d\n",
 			fdf.map_i.map_w, fdf.map_i.map_h, fdf.map_i.z_min, fdf.map_i.z_max);
 		init_mlx(&fdf);
 		init_camera(&fdf);

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:41:56 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/26 11:40:28 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:06:21 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int	colors_empty(int **map, int x, int y)
 		j = 0;
 		while (j < x)
 		{
-			if (map[i][j] != -1)
+			if (map[i][j] != COL_VIOLET)
 				return (0);
 			j++;
 		}

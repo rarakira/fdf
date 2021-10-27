@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 15:14:32 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/27 11:13:51 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:06:03 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_point	*ft_point_new(char *z)
 		if (str)
 			point->color = ft_atoi_base(str[1], 16);
 		else
-			point->color = -1;
+			point->color = COL_VIOLET;
 		point->next = NULL;
 	}
 	ft_split_free(str);

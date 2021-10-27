@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:33:27 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/27 12:55:46 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:03:31 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define IMG_WIDTH		1000
 # define IMG_HEIGHT		700
 # define RAD_ANGLE		0.46365
+# define RAD_ANGLE_2	0.523599
 
 # define COL_RED		0x00D13632
 # define COL_ORANGE		0x00E2571E

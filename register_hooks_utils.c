@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:55:04 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/27 13:00:17 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 13:58:08 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,19 @@ static void	rotate_map(int keycode, t_fdf *fdf)
 		fdf->camera.zz += 0.2;
 }
 
+static void	projection(int keycode, t_fdf *fdf)
+{
+	if (keycode == 1)
+		fdf->camera.iso = 0;
+	if (keycode == 34)
+		fdf->camera.iso = 1;
+	if (keycode == 17)
+		fdf->camera.iso = 2;
+	fdf->camera.xx = 0.0;
+	fdf->camera.yy = 0.0;
+	fdf->camera.zz = 0.0;
+}
+
 int	key_hook(int keycode, t_fdf *fdf)
 {
 	if (keycode == 123 || keycode == 124 || keycode == 125 || keycode == 126)
@@ -57,6 +70,8 @@ int	key_hook(int keycode, t_fdf *fdf)
 	else if (keycode == 18 || keycode == 19 || keycode == 20
 		|| keycode == 21 || keycode == 22 || keycode == 23)
 		rotate_map(keycode, fdf);
+	else if (keycode == 17 || keycode == 34 || keycode == 1)
+		projection(keycode, fdf);
 	else
 	{
 		ft_printf("Hello from key_hook - [%d]!\n", keycode);

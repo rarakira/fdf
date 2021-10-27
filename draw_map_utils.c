@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:10:29 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/27 11:40:47 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:03:14 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,21 @@ void	map_points(t_point *this, t_fdf *fdf)
 	t_point	tmp;
 
 	init_tpoint(&tmp, this->x, this->y, this->z);
-	x_upd = (tmp.x - tmp.y) * cos(RAD_ANGLE);
-	y_upd = -(tmp.z) + (tmp.x + tmp.y) * sin(RAD_ANGLE);
+	if (fdf->camera.iso == 1)
+	{
+		x_upd = (tmp.x - tmp.y) * cos(RAD_ANGLE);
+		y_upd = -(tmp.z) + (tmp.x + tmp.y) * sin(RAD_ANGLE);
+	}
+	else if (fdf->camera.iso == 2)
+	{
+		x_upd = tmp.x;
+		y_upd = tmp.y;
+	}
+	else
+	{
+		x_upd = tmp.x;
+		y_upd = -(tmp.z);
+	}
 	this->x = (int)round(x_upd) + fdf->camera.x_offset;
 	this->y = (int)round(y_upd) + fdf->camera.y_offset;
 }

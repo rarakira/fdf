@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 15:16:00 by lbaela            #+#    #+#             */
-/*   Updated: 2021/10/27 12:29:12 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:07:18 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,6 @@ void	draw_vertical_line(int x, int y, t_fdf *fdf)
 		fdf->map_i.map[y + 1][x] * fdf->map_i.z_depth);
 	start.color = fdf->map_i.color[y][x];
 	fin.color = fdf->map_i.color[y + 1][x];
-	if (start.color == -1)
-		start.color = COL_VIOLET;
-	if (fin.color == -1)
-		fin.color = COL_VIOLET;
 	rotate_point(&start, fdf);
 	rotate_point(&fin, fdf);
 	map_points(&start, fdf);

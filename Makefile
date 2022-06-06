@@ -12,7 +12,7 @@ OBJS		=	$(SRCS:.c=.o)
 
 D_FILES		=	$(SRCS:.c=.d)
 
-INCLUDES	=	-Iincludes
+INCLUDES	=	-Iincludes -Iminilibx_macos -Ilibft
 
 H_FILES		=	includes/error_messages.h						\
 				includes/fdf.h									\

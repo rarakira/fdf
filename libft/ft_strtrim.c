@@ -14,9 +14,6 @@
 
 static int	inset(char ch, char const *set)
 {
-	int	i;
-
-	i = 0;
 	while (*set)
 	{
 		if (*set++ == ch)

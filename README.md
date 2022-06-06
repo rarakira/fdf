@@ -46,7 +46,6 @@ Press `[→]` to move right
 ![42 map](preview/fdf-42.png)
 ![Coloured map](preview/fdf-10.png)
 ![Map](preview/fdf-4.png)
-![Closer](preview/fdf-5.png)
 ![Closer](preview/fdf-6.png)
 ![Closest](preview/fdf-7.png)
 
